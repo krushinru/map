@@ -67,37 +67,12 @@
             minZoom: 10,
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
-        map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
-        var japanese = L.icon({
-            iconUrl: '/assets/images/japanese.png',
-            iconSize: [32, 32], // Размер иконки, подгоните под вашу иконку
-            iconAnchor: [19, 19], // Точка, которая соответствует "ноге" маркера
-            popupAnchor: [-3, -11] // Точка откуда будет "выпадать" ваш popup
-        });
-        var club = L.icon({
-            iconUrl: '/assets/images/club.png',
-            iconSize: [32, 32], // Размер иконки, подгоните под вашу иконку
-            iconAnchor: [15, 20], // Точка, которая соответствует "ноге" маркера
-            popupAnchor: [0, -16] // Точка откуда будет "выпадать" ваш popup
-        });
-        var beer = L.icon({
-            iconUrl: '/assets/images/beer.png',
-            iconSize: [32, 32], // Размер иконки, подгоните под вашу иконку
-            iconAnchor: [14, 20], // Точка, которая соответствует "ноге" маркера
-            popupAnchor: [3, -16] // Точка откуда будет "выпадать" ваш popup
-        });
-        var coffee = L.icon({
-            iconUrl: '/assets/images/coffee.png',
-            iconSize: [32, 32], // Размер иконки, подгоните под вашу иконку
-            iconAnchor: [15, 19], // Точка, которая соответствует "ноге" маркера
-            popupAnchor: [-4, -11] // Точка откуда будет "выпадать" ваш popup
-        });
-        var bar = L.icon({
-            iconUrl: '/assets/images/bar.png',
-            iconSize: [32, 32], // Размер иконки, подгоните под вашу иконку
-            iconAnchor: [18, 20], // Точка, которая соответствует "ноге" маркера
-            popupAnchor: [0, -10] // Точка откуда будет "выпадать" ваш popup
-        });
+        map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a> / Icons by <a href="https://www.flaticon.com/authors/freepik">Freepik</a>');
+        var japanese = L.icon({iconUrl: 'assets/images/japanese.png',iconSize: [32, 32],iconAnchor: [19, 19],popupAnchor: [-3, -11]});
+        var club = L.icon({iconUrl: 'assets/images/club.png',iconSize: [32, 32],iconAnchor: [15, 20],popupAnchor: [0, -16]});
+        var beer = L.icon({iconUrl: 'assets/images/beer.png',iconSize: [32, 32],iconAnchor: [14, 20],popupAnchor: [3, -16]});
+        var coffee = L.icon({iconUrl: 'assets/images/coffee.png',iconSize: [32, 32],iconAnchor: [15, 19],popupAnchor: [-4, -11]});
+        var bar = L.icon({iconUrl: 'assets/images/bar.png',iconSize: [32, 32],iconAnchor: [18, 20],popupAnchor: [0, -10]});
         {% for place in site.data.places %}
         var marker{{forloop.index}} = L.marker([{{ place.lat }}, {{ place.lon }}]{% if place.category %},{icon: {{ place.category }}}{% endif %}).addTo(map).bindPopup(`
         <div class="card">
