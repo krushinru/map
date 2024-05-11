@@ -63,6 +63,7 @@
         northEast = L.latLng(56.009657, 38.489927); // Северо-восточный угол границы
         var bounds = L.latLngBounds(southWest, northEast);
         map.setMaxBounds(bounds);
+        map.locate({setView: true, maxZoom: 15});
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             minZoom: 10,
@@ -103,6 +104,11 @@
         </div>
         `);
         {% endfor %}
+        function onLocationFound(e) {
+            var radius = e.accuracy;
+            L.marker(e.latlng).addTo(map);
+        }
+        map.on('locationfound', onLocationFound);
     </script>
 </body>
 </html>
