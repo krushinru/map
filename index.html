@@ -4,7 +4,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Любимые места</title>
+    <title>{{ site.title }}</title>
+    <meta name="description" content="{{ site.description }}"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/site.webmanifest">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://krushin.me/map/" />
+    <meta property="og:title" content="{{ site.title }}" />
+    <meta property="og:description" content="{{ site.description }}" />
+    <meta property="og:image" content="https://krushin.me/map/assets/images/og.jpg" />
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -14,23 +25,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+        html, body {height: 100%; margin: 0; padding: 0;}
 
         .btn .btn-primary a {color: #fff !important}
 
-        #map {
-            width: 100%;
-            height: calc(100vh - 56px);
-        }
-        #order-button {
-            border-top-left-radius: 0;   /* Левый верхний угол без скругления */
-            border-top-right-radius: 0;
-            color: #fff
-        }
+        #map {width: 100%; height: calc(100vh - 56px);}
+        #order-button {border-top-left-radius: 0; border-top-right-radius: 0; color: #fff}
+
         .leaflet-container a {color: #e95420}
         .leaflet-popup-content-wrapper {background: none; border-radius: 0px}
         .leaflet-popup-content-wrapper, .leaflet-popup-tip {box-shadow: none}
@@ -39,7 +40,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Любимые места</a>
+        <a class="navbar-brand" href="/">{{ site.title }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
