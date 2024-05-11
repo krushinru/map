@@ -71,11 +71,12 @@
 	          maxZoom: 20
         }).addTo(map);
         map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a> / Icons by <a href="https://www.flaticon.com/authors/freepik">Freepik</a>');
-        var japanese = L.icon({iconUrl: 'assets/images/japanese.png',iconSize: [32, 32],iconAnchor: [19, 19],popupAnchor: [-3, -11]});
-        var club = L.icon({iconUrl: 'assets/images/club.png',iconSize: [32, 32],iconAnchor: [15, 20],popupAnchor: [0, -16]});
-        var beer = L.icon({iconUrl: 'assets/images/beer.png',iconSize: [32, 32],iconAnchor: [18, 20],popupAnchor: [3, -16]});
-        var coffee = L.icon({iconUrl: 'assets/images/coffee-cup.png',iconSize: [32, 32],iconAnchor: [15, 20],popupAnchor: [0, -10]});
-        var bar = L.icon({iconUrl: 'assets/images/bar.png',iconSize: [32, 32],iconAnchor: [18, 25],popupAnchor: [0, -10]});
+        var japanese = L.icon({iconUrl: 'assets/images/japanese.png',iconRetinaUrl: 'assets/images/japanese@2x.png',iconSize: [32, 32],iconAnchor: [19, 19],popupAnchor: [-3, -11]});
+        var club = L.icon({iconUrl: 'assets/images/club.png',iconRetinaUrl: 'assets/images/club@2x.png',iconSize: [32, 32],iconAnchor: [15, 20],popupAnchor: [0, -16]});
+        var beer = L.icon({iconUrl: 'assets/images/beer.png',iconRetinaUrl: 'assets/images/beer@2x.png',iconSize: [32, 32],iconAnchor: [14, 20],popupAnchor: [3, -16]});
+        var coffee = L.icon({iconUrl: 'assets/images/coffee-cup.png',iconRetinaUrl: 'assets/images/coffee-cup@2x.png',iconSize: [32, 32],iconAnchor: [15, 20],popupAnchor: [0, -10]});
+        var bar = L.icon({iconUrl: 'assets/images/bar.png',iconRetinaUrl: 'assets/images/bar@2x.png',iconSize: [32, 32],iconAnchor: [18, 20],popupAnchor: [0, -10]});
+        var locationIcon = L.icon({iconUrl: 'assets/images/location.png',iconRetinaUrl: 'assets/images/location@2x.png',iconSize: [32, 32],iconAnchor: [14, 20],popupAnchor: [3, -16]});
         {% for place in site.data.places %}
         var marker{{forloop.index}} = L.marker([{{ place.lat }}, {{ place.lon }}]{% if place.category %},{icon: {{ place.category }}}{% endif %}).addTo(map).bindPopup(`
         <div class="card">
@@ -107,7 +108,7 @@
         {% endfor %}
         function onLocationFound(e) {
             var radius = e.accuracy;
-            L.marker(e.latlng).addTo(map);
+            L.marker(e.latlng,{icon: locationIcon}).addTo(map);
         }
         map.on('locationfound', onLocationFound);
     </script>
