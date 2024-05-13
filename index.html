@@ -23,13 +23,14 @@
     <meta name="viewport" content="user-scalable=no, width=device-width">
     <link rel="stylesheet" href="assets/css/leaflet.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/leaflet-search.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="/">{{ site.title }}</a>
+        <a class="navbar-brand" href="#">{{ site.title }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -46,6 +47,7 @@
       </nav>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="assets/js/leaflet-search.js"></script>
     <script>
         var map = L.map('map').setView([55.7558, 37.6173], 13); // Center map on Moscow
         var southWest = L.latLng(55.489927, 36.827148), // Юго-западный угол границы
@@ -59,15 +61,17 @@
             minZoom: 10,
 	          maxZoom: 20
         }).addTo(map);
+        var markersLayer = new L.LayerGroup();	//layer contain searched elements
         map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a> / Icons by <a href="https://www.flaticon.com/authors/freepik">Freepik</a>');
         var japanese = L.icon({iconUrl: 'assets/images/japanese.png',iconRetinaUrl: 'assets/images/japanese@2x.png',iconSize: [32, 32],iconAnchor: [19, 19],popupAnchor: [-3, -11]});
         var club = L.icon({iconUrl: 'assets/images/club.png',iconRetinaUrl: 'assets/images/club@2x.png',iconSize: [32, 32],iconAnchor: [15, 20],popupAnchor: [0, -16]});
+        var restaurant = L.icon({iconUrl: 'assets/images/fork.png',iconRetinaUrl: 'assets/images/fork@2x.png',iconSize: [32, 32],iconAnchor: [15, 20],popupAnchor: [2, -16]});
         var beer = L.icon({iconUrl: 'assets/images/beer.png',iconRetinaUrl: 'assets/images/beer@2x.png',iconSize: [32, 32],iconAnchor: [14, 20],popupAnchor: [3, -16]});
         var coffee = L.icon({iconUrl: 'assets/images/coffee-cup.png',iconRetinaUrl: 'assets/images/coffee-cup@2x.png',iconSize: [32, 32],iconAnchor: [15, 20],popupAnchor: [0, -10]});
         var bar = L.icon({iconUrl: 'assets/images/bar.png',iconRetinaUrl: 'assets/images/bar@2x.png',iconSize: [32, 32],iconAnchor: [18, 20],popupAnchor: [0, -10]});
         var locationIcon = L.icon({iconUrl: 'assets/images/location.png',iconRetinaUrl: 'assets/images/location@2x.png',iconSize: [32, 32],iconAnchor: [14, 20],popupAnchor: [3, -16]});
         {% for place in site.data.places %}
-        var marker{{forloop.index}} = L.marker([{{ place.lat }}, {{ place.lon }}]{% if place.category %},{icon: {{ place.category }}}{% endif %}).addTo(map).bindPopup(`
+        var marker = L.marker([{{ place.lat }}, {{ place.lon }}]{% if place.category %},{icon: {{ place.category }}}{% endif %}).bindPopup(`
         <div class="card">
         {% if place.image %}<img src="{{ place.image }}" class="card-img-top" alt="...">{% endif %}
         <div class="card-body" style="width: 100%">
@@ -94,7 +98,22 @@
 
         </div>
         `);
+        marker.feature = { properties: { title: "{{ place.name }}" } }; // Добавляем свойство для поиска
+        markersLayer.addLayer(marker);
         {% endfor %}
+        map.addLayer(markersLayer);
+        var controlSearch = new L.Control.Search({
+            position: 'topright',
+            layer: markersLayer,  // Указываем слой, по которому будет осуществляться поиск
+            propertyName: 'title', // Указываем имя свойства, по которому будет осуществляться поиск
+            marker: false,
+            textErr: "Место не найдено",
+            textPlaceholder: "Найти",
+            moveToLocation: function(latlng, title, map) {
+                map.flyTo(latlng, 18); // Zoom level при поиске
+            }
+        });
+        map.addControl(controlSearch);
         function onLocationFound(e) {
             var radius = e.accuracy;
             L.marker(e.latlng,{icon: locationIcon}).addTo(map);
