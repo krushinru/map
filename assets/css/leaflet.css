@@ -175,10 +175,10 @@ html, body {height: 100%; margin: 0; padding: 0; background-color: #e95420;}
 .leaflet-right .leaflet-control {
 	margin-right: 10px;
 	}
-
-
 /* zoom and fade animations */
-
+.leaflet-bar-part {
+	padding: 0 !important
+}
 .leaflet-fade-anim .leaflet-popup {
 	opacity: 0;
 	-webkit-transition: opacity 0.2s linear;
